@@ -26,15 +26,18 @@ npm start
 
 Abre http://localhost:3000.
 
-### Escolha de marca, modelo e motor (opcional, só no teu computador)
+### De onde vêm os carros
 
-No teu computador, o simulador pode usar a [API Ninjas](https://api-ninjas.com) para escolher marca, modelo, ano e motor e estimar o consumo.
+- **No site publicado:** [fueleconomy.gov](https://www.fueleconomy.gov), dados públicos do governo dos EUA (EPA e Departamento de Energia). Escolhes ano, marca, modelo e versão, e o consumo oficial é preenchido. Só inclui carros vendidos nos EUA.
+- **No teu computador (opcional):** a [API Ninjas](https://api-ninjas.com), com mais marcas europeias e consumo estimado pela cilindrada.
+
+Para usar a API Ninjas no computador:
 
 1. Cria uma conta grátis na API Ninjas.
 2. Copia o ficheiro `.env.example` para `.env` e põe lá a tua chave.
 3. Corre `npm start`.
 
-O plano gratuito da API Ninjas só permite uso pessoal e não deixa mostrar os dados ao público. Por isso, no site publicado esta escolha não aparece: escolhes o tipo de energia e escreves o consumo.
+O plano gratuito da API Ninjas só permite uso pessoal e não deixa mostrar os dados ao público. Por isso só é usada no teu computador.
 
 ## Estrutura
 
@@ -49,6 +52,7 @@ scripts/            JavaScript em módulos
   resultado.js      conclusão, mostrador e tabelas
   grafico.js        gráfico (Chart.js)
   carros.js         marca, modelo e motor (API Ninjas, só no computador)
+  carros-publico.js ano, marca, modelo e versão (fueleconomy.gov, site publicado)
   vendor/           Chart.js
 fontes/             letra Archivo
 imagens/            ícone e imagem de partilha
@@ -59,7 +63,8 @@ server.js           servidor para correr no computador (guarda a chave da API fo
 
 - Os valores são estimativas para orientação e não são aconselhamento financeiro.
 - As regras dos apoios do Estado podem mudar. Confirma sempre no Fundo Ambiental.
-- O site não usa cookies nem recolhe dados pessoais.
+- O site não usa cookies nem recolhe dados pessoais. Se escolheres um carro, o browser pede os dados ao fueleconomy.gov.
+- As marcas e modelos pertencem aos seus donos. Este projeto não tem ligação a nenhuma marca.
 
 ## Créditos de terceiros
 
@@ -67,6 +72,7 @@ server.js           servidor para correr no computador (guarda a chave da API fo
 |---|---|---|
 | Letra [Archivo](https://github.com/Omnibus-Type/Archivo) | The Archivo Project Authors | SIL Open Font License 1.1 ([fontes/OFL.txt](fontes/OFL.txt)) |
 | [Chart.js](https://www.chartjs.org) 4.4.7 | Chart.js Contributors | MIT ([scripts/vendor/LICENSE-chart.js.md](scripts/vendor/LICENSE-chart.js.md)) |
+| Dados de veículos (site publicado) | [fueleconomy.gov](https://www.fueleconomy.gov) (EPA e Departamento de Energia dos EUA) | Dados públicos do governo dos EUA |
 | Dados de veículos (só no computador) | [API Ninjas](https://api-ninjas.com) | Termos da API Ninjas |
 
 ## Direitos de autor

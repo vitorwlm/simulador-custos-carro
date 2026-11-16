@@ -30,7 +30,7 @@ const COMBUSTIVEIS = {
 
 // Enche um <select> com uma lista de nomes (sem nomes, fica desativado)
 // Se "dados" vier a null, a API falhou e o texto avisa disso
-function preencher(select, nomes, textoInicial, dados, rotulo) {
+export function preencher(select, nomes, textoInicial, dados, rotulo) {
   if (dados === null) textoInicial = "Não foi possível carregar";
   else if (dados && nomes.length === 0) textoInicial = "Sem resultados";
   textoInicial = t(textoInicial);
@@ -49,7 +49,7 @@ function eElectrico(combustivel) {
 
 // Muda unidades e etiqueta conforme o combustível.
 // Os valores de exemplo só mudam quando o tipo de energia muda, para não apagar o que a pessoa escreveu.
-function atualizarUnidades(carro, combustivel) {
+export function atualizarUnidades(carro, combustivel) {
   const eletrico = eElectrico(combustivel);
   const tipo = document.getElementById("tipo-" + carro);
   const mudouTipo = (tipo.dataset.energia === "eletrico") !== eletrico;
@@ -63,6 +63,9 @@ function atualizarUnidades(carro, combustivel) {
   }
 
   tipo.textContent = t(eletrico ? "Elétrico" : "Combustão");
+  // Mantém a escolha manual do tipo de energia igual ao carro escolhido
+  document.getElementById("energia-" + carro).value = eletrico ? "electric"
+    : /diesel/i.test(combustivel) ? "diesel" : /hybrid/i.test(combustivel) ? "hybrid" : "gasoline";
   document.getElementById("titulo-energia-" + carro).textContent = t(eletrico ? "Eletricidade" : "Combustível");
   document.getElementById("rotulo-preco-" + carro).textContent = t(eletrico ? "Preço da eletricidade" : "Preço do combustível");
   tipo.dataset.energia = eletrico ? "eletrico" : "combustao";
@@ -286,13 +289,12 @@ function ligarCarro(carro) {
 
 // As marcas são iguais nos dois carros: pede-as só uma vez
 // A API Ninjas (plano gratuito) só pode ser usada para fins pessoais e os dados não podem ser
-// mostrados ao público. Por isso a escolha do carro só existe quando o site corre no teu PC.
-// No site publicado, a pessoa escolhe o tipo de energia e escreve o consumo.
+// mostrados ao público. Por isso só é usada quando o site corre no teu PC.
+// No site publicado, os carros vêm do fueleconomy.gov (dados públicos), em carros-publico.js.
 export const COM_API = ["localhost", "127.0.0.1"].includes(location.hostname);
 
 export async function iniciarCarros() {
   ["atual", "novo"].forEach(function (carro) {
-    document.getElementById("grupo-modelo-" + carro).hidden = !COM_API;
     document.getElementById("escolha-energia-" + carro).hidden = COM_API;
     const energia = document.getElementById("energia-" + carro);
     energia.addEventListener("change", function () {
@@ -300,6 +302,7 @@ export async function iniciarCarros() {
     });
   });
   document.getElementById("credito-api").hidden = !COM_API;
+  document.getElementById("credito-publico").hidden = COM_API;
   if (!COM_API) return;
 
   const dados = await facetas("facets=make");

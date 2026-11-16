@@ -17,7 +17,14 @@ const INGLES = {
   "Combustão": "Combustion",
   "Elétrico": "Electric",
   "Modelo": "Model",
-  "opcional, ajusta as unidades ao combustível": "optional, sets the units for the fuel",
+  "opcional, preenche o consumo": "optional, fills in the consumption",
+  "Versão": "Version",
+  "Escolhe a versão": "Choose the version",
+  "Escolhe o ano primeiro": "Choose the year first",
+  "Consumo oficial EPA (EUA) para {carro}. Ajusta se souberes o valor real.":
+    "Official EPA (US) consumption for {carro}. Change it if you know the real value.",
+  "Dados dos veículos: fueleconomy.gov (Agência de Proteção Ambiental e Departamento de Energia dos EUA). Só inclui carros vendidos nos EUA e o consumo é o do teste americano. As marcas pertencem aos seus donos; este site não tem ligação a nenhuma marca.":
+    "Vehicle data: fueleconomy.gov (US Environmental Protection Agency and Department of Energy). Only includes cars sold in the US, with consumption from the US test. Brands belong to their owners; this site has no link to any brand.",
   "Marca": "Make",
   "Ano": "Year",
   "Combustível": "Fuel",
@@ -146,8 +153,8 @@ const INGLES = {
   "Dados dos veículos: API Ninjas.": "Vehicle data: API Ninjas.",
   "Os valores são estimativas para orientação e não são aconselhamento financeiro. As regras dos apoios do Estado podem mudar: confirma sempre no Fundo Ambiental.":
     "Values are estimates for guidance only and are not financial advice. State support rules may change: always check with the Fundo Ambiental.",
-  "Privacidade: este site não usa cookies nem recolhe dados pessoais. A língua escolhida fica guardada só no teu browser.":
-    "Privacy: this site uses no cookies and collects no personal data. Your language choice is stored only in your browser.",
+  "Privacidade: este site não usa cookies nem recolhe dados pessoais. A língua escolhida fica guardada só no teu browser. Se escolheres um carro, o teu browser pede os dados ao fueleconomy.gov (governo dos EUA).":
+    "Privacy: this site uses no cookies and collects no personal data. Your language choice is stored only in your browser. If you choose a car, your browser requests its data from fueleconomy.gov (US government).",
   "© 2026 vitorwlm. Todos os direitos reservados. Feito em Portugal 🇵🇹": "© 2026 vitorwlm. All rights reserved. Made in Portugal 🇵🇹",
   "Tipo de energia": "Energy type",
   "Compara os custos anuais do teu carro com um carro novo e descobre em quantos anos a troca se paga.":

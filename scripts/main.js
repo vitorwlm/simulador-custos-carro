@@ -3,7 +3,8 @@
 
 import { t } from "./idiomas.js";
 import { calcular } from "./resultado.js";
-import { iniciarCarros, rotuloMotor } from "./carros.js";
+import { iniciarCarros, rotuloMotor, COM_API } from "./carros.js";
+import { iniciarCarrosPublico } from "./carros-publico.js";
 
 // ================= SLIDER DOS KM =================
 
@@ -43,9 +44,12 @@ document.addEventListener("mudou-lingua", function () {
     tipo.textContent = t(tipo.dataset.energia === "eletrico" ? "Elétrico" : "Combustão");
     const dica = document.getElementById("dica-consumo-" + carro);
     if (dica.refazer && dica.textContent) dica.refazer();
-    document.getElementById("motor-" + carro).querySelectorAll("option").forEach(function (o) {
-      if (o.value) o.text = rotuloMotor(o.value);
-    });
+    // (no site público, os nomes das versões são refeitos em carros-publico.js)
+    if (COM_API) {
+      document.getElementById("motor-" + carro).querySelectorAll("option").forEach(function (o) {
+        if (o.value) o.text = rotuloMotor(o.value);
+      });
+    }
   });
   calcular();
 });
@@ -64,3 +68,4 @@ document.addEventListener("input", ajustarPainel); // corre depois do calcular()
 calcular();
 ajustarPainel();
 iniciarCarros();
+if (!COM_API) iniciarCarrosPublico();
