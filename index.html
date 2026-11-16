@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compensa trocar de carro?</title>
+  <meta name="description" content="Compara os custos anuais do teu carro com um carro novo e descobre em quantos anos a troca se paga.">
+  <meta name="theme-color" content="#10151d">
+  <link rel="icon" href="imagens/favicon.svg" type="image/svg+xml">
+
+  <!-- Partilha em redes sociais (Open Graph / X). As redes sociais precisam do endereço completo. -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vitorwlm.github.io/simulador-custos-carro/">
+  <meta property="og:locale" content="pt_PT">
+  <meta property="og:locale:alternate" content="en_GB">
+  <meta property="og:title" content="Compensa trocar de carro?">
+  <meta property="og:description" content="Compara os custos anuais do teu carro com um carro novo e descobre em quantos anos a troca se paga.">
+  <meta property="og:image" content="https://vitorwlm.github.io/simulador-custos-carro/imagens/partilha.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Mostrador com o tempo até a troca de carro se pagar">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/topo.css">
+  <link rel="stylesheet" href="styles/formulario.css">
+  <link rel="stylesheet" href="styles/resultado.css">
+  <link rel="stylesheet" href="styles/grafico.css">
+  <link rel="stylesheet" href="styles/resumo.css">
+  <link rel="stylesheet" href="styles/layout.css">
+</head>
+<body>
+
+  <!-- ================= TOPO ================= -->
+  <header class="topo">
+    <div class="linguas segmentos" role="group" aria-label="Língua">
+      <button type="button" data-lingua="pt" aria-pressed="true">PT</button>
+      <button type="button" data-lingua="en" aria-pressed="false">EN</button>
+    </div>
+    <h1>Compensa trocar de carro?</h1>
+    <p class="topo__texto">Compara o que gastas por ano com o teu carro e com um carro novo. O resultado atualiza enquanto escreves.</p>
+  </header>
+
+  <main class="layout">
+
+    <!-- ================= DADOS (esquerda) ================= -->
+    <div class="entradas">
+
+      <section class="cartao km">
+        <label for="km-ano" class="km__titulo">Quantos km fazes por ano?</label>
+        <span class="campo campo--km">
+          <input type="number" id="km-ano" value="15000" min="0" step="500">
+          <span class="unidade">km</span>
+        </span>
+        <input type="range" id="km-slider" min="0" max="60000" step="500" value="15000" aria-label="Km por ano">
+      </section>
+
+      <!-- ================= CARRO ATUAL ================= -->
+      <fieldset class="cartao carro carro--atual">
+        <legend class="carro__titulo">
+          <span class="carro__nome">Carro atual</span>
+          <span class="carro__tipo" id="tipo-atual" data-energia="combustao">Combustão</span>
+        </legend>
+
+        <!-- Dados da API Ninjas -->
+        <div class="grupo" id="grupo-modelo-atual">
+          <p class="grupo__titulo">Modelo <span>opcional, ajusta as unidades ao combustível</span></p>
+          <div class="grelha grelha--escolhas">
+            <label>Marca
+              <select id="marca-atual" disabled><option value="">A carregar…</option></select>
+            </label>
+            <label>Modelo
+              <select id="modelo-atual" disabled><option value="">Escolhe a marca primeiro</option></select>
+            </label>
+            <label>Ano
+              <select id="ano-atual" disabled><option value="">Escolhe o modelo primeiro</option></select>
+            </label>
+            <label>Combustível
+              <select id="combustivel-atual" disabled><option value="">Escolhe o modelo primeiro</option></select>
+            </label>
+            <label class="largo">Motor
+              <select id="motor-atual" disabled><option value="">Escolhe o combustível primeiro</option></select>
+            </label>
+          </div>
+        </div>
+
+        <div class="grupo">
+          <p class="grupo__titulo" id="titulo-energia-atual">Combustível</p>
+          <div class="grelha grelha--energia" id="escolha-energia-atual" hidden>
+            <label class="largo">Tipo de energia
+              <select id="energia-atual"><option value="gasoline" selected>Gasolina</option><option value="diesel">Gasóleo</option><option value="hybrid">Híbrido</option><option value="electric">Elétrico</option></select>
+            </label>
+          </div>
+          <div class="grelha">
+            <label>Consumo
+              <span class="campo"><input type="number" id="consumo-atual" value="6.5" step="0.1" min="0"><span class="unidade" id="unidade-consumo-atual">L/100 km</span></span>
+            </label>
+            <label><span id="rotulo-preco-atual">Preço do combustível</span>
+              <span class="campo"><input type="number" id="preco-energia-atual" value="1.70" step="0.01" min="0"><span class="unidade" id="unidade-preco-atual">€/L</span></span>
+            </label>
+          </div>
+          <p class="dica" id="dica-consumo-atual" aria-live="polite"></p>
+        </div>
+
+        <div class="grupo">
+          <p class="grupo__titulo">Custos fixos por ano</p>
+          <div class="grelha">
+            <label>Seguro
+              <span class="campo"><input type="number" id="seguro-atual" value="350" min="0"><span class="unidade">€</span></span>
+            </label>
+            <label>IUC
+              <span class="campo"><input type="number" id="iuc-atual" value="150" min="0"><span class="unidade">€</span></span>
+            </label>
+            <label>Manutenção
+              <span class="campo"><input type="number" id="manutencao-atual" value="400" min="0"><span class="unidade">€</span></span>
+            </label>
+            <label>Inspeção
+              <span class="campo"><input type="number" id="inspecao-atual" value="35" min="0"><span class="unidade">€</span></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="grupo">
+          <label>Quanto consegues pela venda?
+            <span class="campo campo--destaque"><input type="number" id="valor-venda-atual" value="5000" min="0" step="100"><span class="unidade">€</span></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <!-- ================= CARRO NOVO ================= -->
+      <fieldset class="cartao carro carro--novo">
+        <legend class="carro__titulo">
+          <span class="carro__nome">Carro novo</span>
+          <span class="carro__tipo" id="tipo-novo" data-energia="eletrico">Elétrico</span>
+        </legend>
+
+        <div class="grupo" id="grupo-modelo-novo">
+          <p class="grupo__titulo">Modelo <span>opcional, ajusta as unidades ao combustível</span></p>
+          <div class="grelha grelha--escolhas">
+            <label>Marca
+              <select id="marca-novo" disabled><option value="">A carregar…</option></select>
+            </label>
+            <label>Modelo
+              <select id="modelo-novo" disabled><option value="">Escolhe a marca primeiro</option></select>
+            </label>
+            <label>Ano
+              <select id="ano-novo" disabled><option value="">Escolhe o modelo primeiro</option></select>
+            </label>
+            <label>Combustível
+              <select id="combustivel-novo" disabled><option value="">Escolhe o modelo primeiro</option></select>
+            </label>
+            <label class="largo">Motor
+              <select id="motor-novo" disabled><option value="">Escolhe o combustível primeiro</option></select>
+            </label>
+          </div>
+        </div>
+
+        <div class="grupo">
+          <p class="grupo__titulo" id="titulo-energia-novo">Eletricidade</p>
+          <div class="grelha grelha--energia" id="escolha-energia-novo" hidden>
+            <label class="largo">Tipo de energia
+              <select id="energia-novo"><option value="gasoline">Gasolina</option><option value="diesel">Gasóleo</option><option value="hybrid">Híbrido</option><option value="electric" selected>Elétrico</option></select>
+            </label>
+          </div>
+          <div class="grelha">
+            <label>Consumo
+              <span class="campo"><input type="number" id="consumo-novo" value="16" step="0.1" min="0"><span class="unidade" id="unidade-consumo-novo">kWh/100 km</span></span>
+            </label>
+            <label><span id="rotulo-preco-novo">Preço da eletricidade</span>
+              <span class="campo"><input type="number" id="preco-energia-novo" value="0.20" step="0.01" min="0"><span class="unidade" id="unidade-preco-novo">€/kWh</span></span>
+            </label>
+          </div>
+          <p class="dica" id="dica-consumo-novo" aria-live="polite"></p>
+        </div>
+
+        <div class="grupo">
+          <p class="grupo__titulo">Custos fixos por ano</p>
+          <div class="grelha">
+            <label>Seguro
+              <span class="campo"><input type="number" id="seguro-novo" value="450" min="0"><span class="unidade">€</span></span>
+            </label>
+            <label>IUC
+              <span class="campo"><input type="number" id="iuc-novo" value="0" min="0"><span class="unidade">€</span></span>
+            </label>
+            <label>Manutenção
+              <span class="campo"><input type="number" id="manutencao-novo" value="150" min="0"><span class="unidade">€</span></span>
+            </label>
+            <label>Inspeção
+              <span class="campo"><input type="number" id="inspecao-novo" value="0" min="0"><span class="unidade">€</span></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="grupo">
+          <label>Quanto custa o carro novo?
+            <span class="campo campo--destaque"><input type="number" id="preco-compra-novo" value="30000" min="0" step="100"><span class="unidade">€</span></span>
+          </label>
+        </div>
+
+        <!-- Apoios do Estado à compra de elétricos -->
+        <div class="grupo">
+          <div class="grelha">
+            <label class="largo">Apoio à compra
+              <select id="apoio-novo">
+                <option value="nenhum">Sem apoio</option>
+                <option value="fundo">Fundo Ambiental: 4000 €</option>
+                <option value="social">Famílias com tarifa social: até 80%</option>
+              </select>
+            </label>
+            <label class="largo" id="apoio-pct-rotulo" hidden>Percentagem do apoio (sobre o preço sem IVA)
+              <span class="campo"><input type="number" id="apoio-pct" value="80" min="0" max="80" step="5"><span class="unidade">%</span></span>
+            </label>
+          </div>
+          <p class="dica" id="dica-apoio"></p>
+        </div>
+
+        <!-- Pagamento: a pronto ou a crédito -->
+        <div class="grupo">
+          <div class="grelha">
+            <label class="largo">Como vais pagar?
+              <select id="pagamento">
+                <option value="pronto">A pronto</option>
+                <option value="credito">Com crédito (prestações)</option>
+              </select>
+            </label>
+          </div>
+          <div class="grelha grelha--credito" id="credito-campos" hidden>
+            <label>Entrada
+              <span class="campo"><input type="number" id="entrada" value="0" min="0" step="500"><span class="unidade">€</span></span>
+            </label>
+            <label>Prazo
+              <span class="campo"><input type="number" id="prazo" value="84" min="1" max="120" step="12"><span class="unidade">meses</span></span>
+            </label>
+            <label class="largo">Taxa de juro anual (TAN)
+              <span class="campo"><input type="number" id="tan" value="7" min="0" step="0.1"><span class="unidade">%</span></span>
+            </label>
+          </div>
+          <p class="dica" id="dica-credito"></p>
+        </div>
+      </fieldset>
+
+      <p class="nota">Os valores de partida são estimativas. Ajusta-os à tua realidade.</p>
+    </div>
+
+    <!-- ================= RESULTADO (direita, preenchido pelo script.js) ================= -->
+    <aside class="cartao resultado" id="resultado" aria-label="Resultado"></aside>
+  </main>
+
+  <!-- ================= GRÁFICO (largura toda) ================= -->
+  <section class="cartao evolucao" id="evolucao" aria-label="Custo acumulado"></section>
+
+  <!-- Aviso para leitores de ecrã: só muda quando a conclusão muda -->
+  <p class="so-leitor" id="anuncio" aria-live="polite"></p>
+
+  <!-- Barra fixa em baixo nos telemóveis -->
+  <a class="resumo" id="resumo" href="#resultado">
+    <span class="resumo__texto" id="resumo-texto"></span>
+    <span class="resumo__ver">Ver detalhes</span>
+  </a>
+
+  <footer class="rodape">
+    <p id="credito-api" hidden>Dados dos veículos: API Ninjas.</p>
+    <p>Os valores são estimativas para orientação e não são aconselhamento financeiro. As regras dos apoios do Estado podem mudar: confirma sempre no Fundo Ambiental.</p>
+    <p>Privacidade: este site não usa cookies nem recolhe dados pessoais. A língua escolhida fica guardada só no teu browser.</p>
+    <p>© 2026 vitorwlm. Todos os direitos reservados. Feito em Portugal 🇵🇹</p>
+  </footer>
+
+  <!-- Chart.js (licença MIT, ver scripts/vendor/LICENSE-chart.js.md), guardado no projeto -->
+  <script src="scripts/vendor/chart.umd.js"></script>
+  <script type="module" src="scripts/main.js"></script>
+</body>
+</html>

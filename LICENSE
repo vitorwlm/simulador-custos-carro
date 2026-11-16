@@ -1,0 +1,24 @@
+Copyright (c) 2026 vitorwlm. Todos os direitos reservados.
+
+O código, o design e os textos deste projeto pertencem a vitorwlm.
+Podes ver o código e usar o site publicado. Não podes copiar, modificar,
+distribuir, publicar ou usar este código, no todo ou em parte, sem
+autorização escrita do autor.
+
+Os componentes de terceiros incluídos neste repositório mantêm as suas
+próprias licenças:
+- Letra Archivo: SIL Open Font License 1.1 (fontes/OFL.txt)
+- Chart.js: licença MIT (scripts/vendor/LICENSE-chart.js.md)
+
+---
+
+Copyright (c) 2026 vitorwlm. All rights reserved.
+
+The code, design and text of this project belong to vitorwlm.
+You may view the code and use the published site. You may not copy, modify,
+distribute, publish or use this code, in whole or in part, without the
+author's written permission.
+
+Third-party components in this repository keep their own licences:
+- Archivo typeface: SIL Open Font License 1.1 (fontes/OFL.txt)
+- Chart.js: MIT licence (scripts/vendor/LICENSE-chart.js.md)

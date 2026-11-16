@@ -1,0 +1,113 @@
+/* Layout: colunas e ajustes por tamanho de ecrã */
+
+/* ================= DUAS COLUNAS ================= */
+.layout {
+  display: grid;
+  gap: 20px;
+  padding: 0 20px;
+}
+
+.entradas {
+  display: grid;
+  gap: 20px;
+  min-width: 0;
+}
+
+/* ================= ECRÃS MAIORES ================= */
+@media (min-width: 640px) {
+  .topo {
+    padding-top: 72px;
+    padding-bottom: 36px;
+  }
+
+  .carro {
+    padding: 0 26px 26px;
+  }
+}
+
+/* Duas colunas: dados à esquerda, resultado fixo à direita */
+@media (min-width: 1000px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 420px;
+    align-items: start;
+    gap: 24px;
+  }
+
+
+  .evolucao {
+    margin-top: 24px;
+  }
+
+  .resumo {
+    display: none;
+  }
+
+  .rodape {
+    padding-bottom: 40px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .resultado {
+    position: sticky;
+    /* 20px do topo; se o painel for mais alto que o ecrã, o main.js dá um valor
+       negativo para o painel subir até se ver o fim e só depois ficar fixo */
+    top: var(--topo-resultado, 20px);
+  }
+}
+
+/* Gráfico alinhado com o resto quando há espaço dos lados */
+@media (min-width: 1200px) {
+  .evolucao {
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ================= TELEMÓVEIS PEQUENOS ================= */
+@media (max-width: 520px) {
+  /* Pergunta dos km por cima da caixa, para não partir palavra a palavra */
+  .km {
+    grid-template-columns: 1fr;
+  }
+
+  .campo--km {
+    width: 100%;
+  }
+
+  .grupo__titulo span {
+    display: block;
+    margin: 2px 0 0;
+  }
+}
+
+@media (max-width: 420px) {
+  /* Listas da marca/modelo numa coluna, para os textos não ficarem cortados */
+  .grelha--escolhas {
+    grid-template-columns: 1fr;
+  }
+
+  .carro,
+  .resultado,
+  .evolucao,
+  .km {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .comparar {
+    font-size: 0.875rem;
+  }
+
+  .comparar tfoot th,
+  .comparar tfoot td {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 340px) {
+  .grelha {
+    grid-template-columns: 1fr;
+  }
+}

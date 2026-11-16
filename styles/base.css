@@ -1,0 +1,146 @@
+/* Base: cores, letra, elementos comuns e acessibilidade */
+
+/* Letra Archivo, guardada no projeto (licença SIL Open Font License, ver fontes/OFL.txt).
+   Não é carregada do Google Fonts, para não enviar dados dos visitantes a terceiros. */
+@font-face {
+  font-family: "Archivo";
+  src: url("../fontes/archivo-latin-ext.woff2") format("woff2");
+  font-weight: 400 700;
+  font-stretch: 100% 125%;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Archivo";
+  src: url("../fontes/archivo-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-stretch: 100% 125%;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ================= CORES E MEDIDAS =================
+   Ideia: painel de instrumentos de um carro, à noite. */
+:root {
+  color-scheme: dark;
+
+  --fundo: #10151d;
+  --superficie: #171e29;   /* cartões */
+  --campo: #1f2836;        /* caixas de texto */
+  --linha: #2b3546;
+  --texto: #e8edf4;
+  --suave: #98a4b6;
+
+  --atual: #f2994a;        /* combustão: laranja */
+  --novo: #56c2f0;         /* elétrico: azul */
+  --bom: #5fd39a;
+  --medio: #f2c14e;
+  --mau: #ef6b6b;
+
+  --raio: 14px;
+  --raio-campo: 10px;
+  --fonte: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* ================= BASE ================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fonte);
+  font-size: 1rem;
+  line-height: 1.5;
+  background: var(--fundo);
+  color: var(--texto);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--novo);
+  color: var(--fundo);
+}
+
+/* O atributo hidden ganha sempre (labels usam display: flex) */
+[hidden] {
+  display: none !important;
+}
+
+.so-leitor {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.topo,
+.layout,
+.evolucao,
+.rodape {
+  max-width: 1160px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cartao {
+  background: var(--superficie);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+}
+
+/* Botões segmentados (PT / EN e anos do gráfico) */
+.segmentos {
+  display: flex;
+  padding: 3px;
+  background: var(--superficie);
+  border: 1px solid var(--linha);
+  border-radius: 999px;
+}
+
+.segmentos button {
+  min-width: 44px;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--suave);
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.segmentos button:hover {
+  color: var(--texto);
+}
+
+.segmentos button[aria-pressed="true"] {
+  color: var(--fundo);
+  background: var(--texto);
+}
+
+.segmentos button:focus-visible {
+  outline: 2px solid var(--texto);
+  outline-offset: 2px;
+}
+
+/* Menos animações para quem prefere */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

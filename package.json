@@ -1,0 +1,16 @@
+{
+  "name": "simulador_custos_carro",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Simulador que compara os custos anuais do teu carro com um carro novo e mostra em quantos anos a troca se paga.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js"
+  },
+  "engines": {
+    "node": ">=22.9"
+  },
+  "author": "vitorwlm",
+  "license": "UNLICENSED",
+  "type": "commonjs"
+}

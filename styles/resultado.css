@@ -1,0 +1,197 @@
+/* Resultado: mostrador, conclusão, tabela e crédito */
+
+/* ================= RESULTADO ================= */
+.resultado {
+  padding: 24px;
+  scroll-margin-top: 16px;
+}
+
+.resultado__titulo {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--suave);
+}
+
+/* Mostrador: o elemento principal */
+.mostrador {
+  position: relative;
+  max-width: 300px;
+  margin: 8px auto 0;
+}
+
+.mostrador svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mostrador__valor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 30px;
+  text-align: center;
+  line-height: 1;
+}
+
+.mostrador__valor strong {
+  display: block;
+  font-size: 3.25rem;
+  font-weight: 700;
+  font-stretch: 112%;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.mostrador__valor span {
+  font-size: 0.95rem;
+  color: var(--suave);
+}
+
+.mostrador__escala {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4px;
+  font-size: 0.8rem;
+  color: var(--suave);
+}
+
+/* Conclusão */
+.veredito {
+  margin: 20px 0 0;
+  text-align: center;
+}
+
+.veredito__titulo {
+  margin: 0 0 6px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-stretch: 112%;
+  line-height: 1.15;
+  color: var(--cor-veredito);
+  text-wrap: balance;
+}
+
+.veredito--bom { --cor-veredito: var(--bom); }
+.veredito--medio { --cor-veredito: var(--medio); }
+.veredito--mau { --cor-veredito: var(--mau); }
+
+.veredito__texto {
+  max-width: 40ch;
+  margin: 0 auto;
+  color: var(--suave);
+  text-wrap: pretty;
+}
+
+.veredito__texto strong {
+  color: var(--texto);
+  font-weight: 600;
+}
+
+/* Tabela de comparação */
+.comparar {
+  width: 100%;
+  margin-top: 24px;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.comparar td {
+  white-space: nowrap;
+}
+
+.comparar th,
+.comparar td {
+  padding: 9px 0;
+  text-align: right;
+  border-bottom: 1px solid var(--linha);
+}
+
+.comparar td + td,
+.comparar th + th,
+.comparar th + td {
+  padding-left: 12px;
+}
+
+.comparar tbody th {
+  text-align: left;
+  font-weight: 400;
+  color: var(--suave);
+}
+
+.comparar thead th {
+  padding-top: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.comparar .col-atual { color: var(--atual); }
+.comparar .col-novo { color: var(--novo); }
+.comparar .col-dif { color: var(--suave); }
+
+.comparar .positivo { color: var(--bom); }
+.comparar .negativo { color: var(--mau); }
+
+.comparar tfoot th,
+.comparar tfoot td {
+  padding-top: 12px;
+  border-bottom: 0;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.comparar tfoot th {
+  text-align: left;
+}
+
+/* Tabela do gasto mensal: título visível por cima */
+.comparar--mensal caption {
+  margin-bottom: 8px;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Crédito: prestação e juros no resultado */
+.credito {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--campo);
+  border-radius: var(--raio-campo);
+}
+
+.credito__item span {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--suave);
+}
+
+.credito__item strong {
+  display: block;
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-stretch: 112%;
+  font-variant-numeric: tabular-nums;
+}
+
+.credito__item small {
+  font-size: 0.85rem;
+  color: var(--suave);
+}
+
+.credito__nota {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--suave);
+}
+
+.credito__nota strong {
+  color: var(--texto);
+  font-weight: 600;
+}

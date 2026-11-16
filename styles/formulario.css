@@ -1,0 +1,270 @@
+/* Formulário: km, slider, carros, campos e notas */
+
+/* ================= KM ================= */
+.km {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 14px 16px;
+  padding: 20px 22px;
+}
+
+.km__titulo {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--texto);
+}
+
+.km .km__titulo {
+  display: block;
+}
+
+.campo--km {
+  width: 9.5rem;
+}
+
+.campo--km input {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.km input[type="range"] {
+  grid-column: 1 / -1;
+}
+
+/* Slider */
+input[type="range"] {
+  width: 100%;
+  height: 6px;
+  margin: 8px 0;
+  border-radius: 3px;
+  -webkit-appearance: none;
+  appearance: none;
+  background:
+    linear-gradient(var(--texto), var(--texto)) 0 / var(--pct, 25%) 100% no-repeat,
+    var(--linha);
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--texto);
+  border: 5px solid var(--superficie);
+  box-shadow: 0 0 0 1px var(--texto);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--texto);
+  border: 5px solid var(--superficie);
+  box-shadow: 0 0 0 1px var(--texto);
+}
+
+input[type="range"]:focus-visible {
+  outline: 2px solid var(--texto);
+  outline-offset: 8px;
+}
+
+/* ================= CARROS ================= */
+.carro {
+  min-width: 0;
+  margin: 0;
+  padding: 0 22px 24px;
+}
+
+.carro--atual { --cor: var(--atual); }
+.carro--novo { --cor: var(--novo); }
+
+.carro__titulo {
+  float: left; /* faz a legend comportar-se como um bloco normal */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 0 16px;
+  border-bottom: 1px solid var(--linha);
+}
+
+.carro__titulo + * {
+  clear: both;
+}
+
+.carro__nome {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-stretch: 112%;
+}
+
+/* Marca de cor que liga este carro à tabela e ao gráfico */
+.carro__nome::before {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--cor);
+}
+
+.carro__tipo {
+  padding: 4px 10px;
+  border: 1px solid color-mix(in srgb, var(--cor) 45%, transparent);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor);
+  white-space: nowrap;
+}
+
+.grupo {
+  padding-top: 20px;
+}
+
+.grupo__titulo {
+  margin: 0 0 10px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Escolha manual do tipo de energia (site público, sem a API) */
+.grelha--energia {
+  margin-bottom: 12px;
+}
+
+.grupo__titulo span {
+  margin-left: 6px;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--suave);
+}
+
+.grelha {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 14px;
+}
+
+.grelha .largo {
+  grid-column: 1 / -1;
+}
+
+.grelha--credito {
+  margin-top: 12px;
+}
+
+/* ================= CAMPOS ================= */
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--suave);
+}
+
+select,
+.campo {
+  width: 100%;
+  min-width: 0;
+  background-color: var(--campo);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-campo);
+  transition: border-color 0.15s;
+}
+
+select {
+  padding: 11px 34px 11px 12px;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--texto);
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2398a4b6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.campo {
+  display: flex;
+  align-items: center;
+}
+
+.campo input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  padding: 11px 0 11px 12px;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--texto);
+  background: transparent;
+  border: 0;
+  outline: none;
+  font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.unidade {
+  padding: 0 12px 0 6px;
+  font-size: 0.85rem;
+  color: var(--suave);
+  white-space: nowrap;
+}
+
+select:hover:not(:disabled),
+.campo:hover {
+  border-color: #46536a;
+}
+
+select:disabled {
+  color: #7d889a;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+
+select:focus,
+.campo:focus-within {
+  border-color: var(--cor, var(--texto));
+  outline: 1px solid var(--cor, var(--texto));
+}
+
+.campo--destaque input {
+  padding-top: 13px;
+  padding-bottom: 13px;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+/* Nota por baixo do consumo (estimativa) */
+.dica {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: var(--suave);
+}
+
+.dica:empty {
+  display: none;
+}
+
+.nota {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--suave);
+}

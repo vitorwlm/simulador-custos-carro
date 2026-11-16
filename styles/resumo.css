@@ -1,0 +1,57 @@
+/* Barra de resumo (telemóveis) e rodapé */
+
+/* ================= BARRA DE RESUMO (telemóveis) ================= */
+.resumo {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--campo);
+  border: 1px solid #3a4659;
+  border-radius: var(--raio);
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.6);
+  color: var(--texto);
+  text-decoration: none;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+.resumo__texto {
+  font-weight: 700;
+  color: var(--cor-veredito, var(--texto));
+}
+
+.resumo__ver {
+  font-size: 0.9rem;
+  color: var(--suave);
+  white-space: nowrap;
+}
+
+/* Esconde a barra quando o resultado já está à vista */
+.resumo.escondido {
+  transform: translateY(150%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.resumo:focus-visible {
+  outline: 2px solid var(--texto);
+  outline-offset: 3px;
+}
+
+/* ================= RODAPÉ ================= */
+.rodape {
+  padding: 28px 20px 96px;
+  font-size: 0.9rem;
+  color: var(--suave);
+}
+
+.rodape p {
+  max-width: 75ch;
+  margin: 0 0 6px;
+}

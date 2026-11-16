@@ -1,0 +1,13 @@
+# Segredos (chave da API)
+.env
+
+node_modules/
+
+# Ferramentas e notas pessoais (não fazem parte do site)
+.agents/
+.claude/
+.impeccable/
+skills-lock.json
+CLAUDE.md
+PRODUCT.md
+_versao_antiga/

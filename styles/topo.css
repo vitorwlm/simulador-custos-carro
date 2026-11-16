@@ -1,0 +1,35 @@
+/* Topo: título, texto de entrada e botões de língua */
+
+/* ================= TOPO ================= */
+.topo {
+  padding: 76px 20px 28px; /* espaço por cima para os botões PT / EN */
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: clamp(2.1rem, 5.5vw, 3.25rem);
+  font-weight: 700;
+  font-stretch: 112%;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.topo__texto {
+  max-width: 60ch;
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--suave);
+  text-wrap: pretty;
+}
+
+/* Botões de língua (PT / EN), no canto */
+.topo {
+  position: relative;
+}
+
+.linguas {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
