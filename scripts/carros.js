@@ -290,7 +290,7 @@ function ligarCarro(carro) {
 // As marcas são iguais nos dois carros: pede-as só uma vez
 // A API Ninjas (plano gratuito) só pode ser usada para fins pessoais e os dados não podem ser
 // mostrados ao público. Por isso só é usada quando o site corre no teu PC.
-// No site publicado, os carros vêm do fueleconomy.gov (dados públicos), em carros-publico.js.
+// No site publicado, os carros vêm dos dados da Agência Europeia do Ambiente, em carros-publico.js.
 export const COM_API = ["localhost", "127.0.0.1"].includes(location.hostname);
 
 export async function iniciarCarros() {

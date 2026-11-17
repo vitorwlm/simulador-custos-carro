@@ -19,6 +19,7 @@ const TIPOS = {
   ".svg": "image/svg+xml",
   ".png": "image/png",
   ".woff2": "font/woff2",
+  ".json": "application/json",
 };
 
 // Só estes pedidos à API são aceites (os que o site usa)

@@ -28,7 +28,7 @@ Abre http://localhost:3000.
 
 ### De onde vêm os carros
 
-- **No site publicado:** [fueleconomy.gov](https://www.fueleconomy.gov), dados públicos do governo dos EUA (EPA e Departamento de Energia). Escolhes ano, marca, modelo e versão, e o consumo oficial é preenchido. Só inclui carros vendidos nos EUA.
+- **No site publicado:** dados oficiais da [Agência Europeia do Ambiente (EEA)](https://www.eea.europa.eu/en/datahub/datahubitem-view/fa8b1229-3db6-495d-b18e-9c9b3267c02b) sobre os carros novos registados na UE (2010 a 2025). Escolhes marca, modelo, ano e versão (cilindrada e potência), e o consumo oficial é preenchido. Os dados estão guardados no projeto, em `dados/carros/`.
 - **No teu computador (opcional):** a [API Ninjas](https://api-ninjas.com), com mais marcas europeias e consumo estimado pela cilindrada.
 
 Para usar a API Ninjas no computador:
@@ -52,8 +52,9 @@ scripts/            JavaScript em módulos
   resultado.js      conclusão, mostrador e tabelas
   grafico.js        gráfico (Chart.js)
   carros.js         marca, modelo e motor (API Ninjas, só no computador)
-  carros-publico.js ano, marca, modelo e versão (fueleconomy.gov, site publicado)
+  carros-publico.js marca, modelo, ano e versão (dados da EEA, site publicado)
   vendor/           Chart.js
+dados/carros/       um ficheiro por marca com os dados da EEA
 fontes/             letra Archivo
 imagens/            ícone e imagem de partilha
 server.js           servidor para correr no computador (guarda a chave da API fora do browser)
@@ -63,7 +64,7 @@ server.js           servidor para correr no computador (guarda a chave da API fo
 
 - Os valores são estimativas para orientação e não são aconselhamento financeiro.
 - As regras dos apoios do Estado podem mudar. Confirma sempre no Fundo Ambiental.
-- O site não usa cookies nem recolhe dados pessoais. Se escolheres um carro, o browser pede os dados ao fueleconomy.gov.
+- O site não usa cookies, não recolhe dados pessoais e não faz pedidos a outros sites.
 - As marcas e modelos pertencem aos seus donos. Este projeto não tem ligação a nenhuma marca.
 
 ## Créditos de terceiros
@@ -72,7 +73,7 @@ server.js           servidor para correr no computador (guarda a chave da API fo
 |---|---|---|
 | Letra [Archivo](https://github.com/Omnibus-Type/Archivo) | The Archivo Project Authors | SIL Open Font License 1.1 ([fontes/OFL.txt](fontes/OFL.txt)) |
 | [Chart.js](https://www.chartjs.org) 4.4.7 | Chart.js Contributors | MIT ([scripts/vendor/LICENSE-chart.js.md](scripts/vendor/LICENSE-chart.js.md)) |
-| Dados de veículos (site publicado) | [fueleconomy.gov](https://www.fueleconomy.gov) (EPA e Departamento de Energia dos EUA) | Dados públicos do governo dos EUA |
+| Dados de veículos (site publicado) | [Agência Europeia do Ambiente (EEA)](https://www.eea.europa.eu/en/datahub/datahubitem-view/fa8b1229-3db6-495d-b18e-9c9b3267c02b), monitorização das emissões de CO2 dos carros novos (Regulamento (UE) 2019/631), 2010 a 2025 | CC BY 4.0. Agrupado por marca, modelo, ano e versão, com o consumo médio oficial |
 | Dados de veículos (só no computador) | [API Ninjas](https://api-ninjas.com) | Termos da API Ninjas |
 
 ## Direitos de autor

@@ -1,157 +1,125 @@
-// ================= CARROS NO SITE PÚBLICO (fueleconomy.gov) =================
-// Dados públicos do governo dos EUA (EPA e Departamento de Energia): ano, marca, modelo,
-// versão e consumo oficial. Não precisa de chave e pode ser usado no site publicado.
-// Só tem carros vendidos nos EUA.
+// ================= CARROS NO SITE PÚBLICO (dados europeus da EEA) =================
+// Dados oficiais dos carros novos registados na UE, publicados pela Agência Europeia do Ambiente
+// (licença CC BY 4.0). Estão guardados no projeto, em dados/carros/ (um ficheiro por marca),
+// por isso o site não faz pedidos a mais ninguém.
 
 import { t, lingua } from "./idiomas.js";
 import { calcular } from "./resultado.js";
 import { preencher, atualizarUnidades } from "./carros.js";
 
-const BASE = "https://www.fueleconomy.gov/ws/rest/vehicle/";
-const PRIMEIRO_ANO = 1984; // primeiro ano com dados
+const PASTA = "dados/carros/";
+const NOMES_COMBUSTIVEL = { gasoline: "Gasolina", diesel: "Gasóleo", hybrid: "Híbrido plug-in", electric: "Elétrico" };
 
-async function pedir(caminho) {
+async function ler(ficheiro) {
   try {
-    const resposta = await fetch(BASE + caminho, { headers: { Accept: "application/json" } });
+    const resposta = await fetch(PASTA + ficheiro);
     if (!resposta.ok) throw new Error("HTTP " + resposta.status);
     return await resposta.json();
   } catch (erro) {
-    console.error("Erro no fueleconomy.gov:", erro);
+    console.error("Erro ao ler os dados dos carros:", erro);
     return null;
   }
 }
 
-// A API devolve uma lista, ou um só objeto quando só há uma opção
-function itens(dados) {
-  const lista = dados && dados.menuItem;
-  return !lista ? [] : Array.isArray(lista) ? lista : [lista];
+// [combustível, cc, kW, consumo, teste] → "1.3 L, 75 cv, Gasolina"
+function rotuloVersao(v) {
+  const [combustivel, cc, kw] = v;
+  const cv = Math.round(kw * 1.36);
+  const motor = cc ? (cc / 1000).toLocaleString(lingua === "en" ? "en-IE" : "pt-PT", { minimumFractionDigits: 1 }) + " L, " : "";
+  return motor + cv + " cv (" + kw + " kW), " + t(NOMES_COMBUSTIVEL[combustivel]);
 }
 
-// "Auto (AV-S10), 4 cyl, 2.0 L" → "Automática (AV-S10), 4 cil, 2.0 L" (em português)
-function rotuloVersao(texto) {
-  if (lingua === "en") return texto;
-  return texto.replace(/^Auto\b/, "Automática").replace(/^Man\b/, "Manual")
-    .replace(/variable gear ratios/i, "variação contínua").replace(/\bcyl\b/, "cil")
-    .replace(/(\d+)-spd/, "$1 velocidades");
-}
-
-function ligar(carro, anos) {
-  const ano = document.getElementById("ano-" + carro);
+function ligar(carro, marcas) {
   const marca = document.getElementById("marca-" + carro);
   const modelo = document.getElementById("modelo-" + carro);
+  const ano = document.getElementById("ano-" + carro);
   const versao = document.getElementById("motor-" + carro);
   const dica = document.getElementById("dica-consumo-" + carro);
-  let textos = {}; // id da versão → texto da API
+  let dados = null; // ficheiro da marca escolhida
   let ultimoPedido = 0;
 
-  // Aqui o ano vem primeiro e não há lista de combustível (vem com a versão)
+  // O combustível vem com a versão, por isso esta lista não é precisa
   document.getElementById("combustivel-" + carro).closest("label").hidden = true;
-  ano.closest("label").style.order = -1;
   const rotulo = versao.closest("label").firstChild;
   rotulo.nodeValue = t("Versão");
 
-  preencher(ano, anos, "Escolhe o ano");
-  preencher(marca, [], "Escolhe o ano primeiro");
+  // marcas é null se o ficheiro não carregou (a lista diz "Não foi possível carregar")
+  preencher(marca, (marcas || []).map(m => m.ficheiro), "Escolhe a marca", marcas, f => marcas.find(m => m.ficheiro === f).nome);
   preencher(modelo, [], "Escolhe a marca primeiro");
-  preencher(versao, [], "Escolhe o modelo primeiro");
+  preencher(ano, [], "Escolhe o modelo primeiro");
+  preencher(versao, [], "Escolhe o ano primeiro");
 
-  function encherVersoes(dados) {
-    const lista = itens(dados);
-    textos = Object.fromEntries(lista.map(v => [v.value, v.text]));
-    preencher(versao, lista.map(v => v.value), "Escolhe a versão", dados, id => rotuloVersao(textos[id]));
-    if (lista.length === 1) {
-      versao.value = lista[0].value;
-      escolheuVersao();
-    }
+  function versoes() {
+    return dados && modelo.value && ano.value ? dados.modelos[modelo.value][ano.value] : [];
   }
-
-  // Versão escolhida → tipo de energia e consumo oficial
-  async function escolheuVersao() {
-    const pedido = ++ultimoPedido;
-    if (!versao.value) return;
-    dica.textContent = t("A carregar…");
-    const d = await pedir(encodeURIComponent(versao.value));
-    if (pedido !== ultimoPedido) return;
-    if (!d) {
-      dica.textContent = t("Não foi possível carregar");
-      return;
-    }
-
-    const eletrico = d.atvType === "EV" || /electricity/i.test(d.fuelType1);
-    const combustivel = eletrico ? "electric" : /diesel/i.test(d.fuelType1) ? "diesel"
-      : /hybrid/i.test(d.atvType) ? "hybrid" : "gasoline";
-    atualizarUnidades(carro, combustivel);
-
-    // EPA: milhas por galão (combustão) ou kWh por 100 milhas (elétricos) → valores europeus
-    const consumo = eletrico ? Number(d.combE) / 1.609344 : 235.215 / Number(d.comb08);
-    if (isFinite(consumo) && consumo > 0) {
-      document.getElementById("consumo-" + carro).value = Math.round(consumo * 10) / 10;
-    }
-
-    dica.refazer = function () {
-      dica.textContent = t("Consumo oficial EPA (EUA) para {carro}. Ajusta se souberes o valor real.",
-        { carro: d.make + " " + d.model + " " + d.year });
-    };
-    dica.refazer();
-    calcular();
-  }
-
-  ano.addEventListener("change", async function () {
-    const pedido = ++ultimoPedido;
-    dica.textContent = "";
-    preencher(modelo, [], "Escolhe a marca primeiro");
-    preencher(versao, [], "Escolhe o modelo primeiro");
-    if (!ano.value) {
-      preencher(marca, [], "Escolhe o ano primeiro");
-      return;
-    }
-    preencher(marca, [], "A carregar…");
-    const dados = await pedir("menu/make?year=" + ano.value);
-    if (pedido !== ultimoPedido) return;
-    preencher(marca, itens(dados).map(i => i.value), "Escolhe a marca", dados);
-  });
 
   marca.addEventListener("change", async function () {
     const pedido = ++ultimoPedido;
     dica.textContent = "";
-    preencher(versao, [], "Escolhe o modelo primeiro");
+    dados = null;
+    preencher(ano, [], "Escolhe o modelo primeiro");
+    preencher(versao, [], "Escolhe o ano primeiro");
     if (!marca.value) {
       preencher(modelo, [], "Escolhe a marca primeiro");
       return;
     }
     preencher(modelo, [], "A carregar…");
-    const dados = await pedir("menu/model?year=" + ano.value + "&make=" + encodeURIComponent(marca.value));
+    const lido = await ler(marca.value);
     if (pedido !== ultimoPedido) return;
-    preencher(modelo, itens(dados).map(i => i.value), "Escolhe o modelo", dados);
+    dados = lido;
+    preencher(modelo, lido ? Object.keys(lido.modelos) : [], "Escolhe o modelo", lido);
   });
 
-  modelo.addEventListener("change", async function () {
-    const pedido = ++ultimoPedido;
+  modelo.addEventListener("change", function () {
     dica.textContent = "";
-    if (!modelo.value) {
-      preencher(versao, [], "Escolhe o modelo primeiro");
-      return;
-    }
-    preencher(versao, [], "A carregar…");
-    const dados = await pedir("menu/options?year=" + ano.value + "&make=" + encodeURIComponent(marca.value) +
-      "&model=" + encodeURIComponent(modelo.value));
-    if (pedido !== ultimoPedido) return;
-    encherVersoes(dados);
+    preencher(versao, [], "Escolhe o ano primeiro");
+    const anos = modelo.value ? Object.keys(dados.modelos[modelo.value]).sort((a, b) => b - a) : [];
+    preencher(ano, anos, modelo.value ? "Escolhe o ano" : "Escolhe o modelo primeiro");
   });
 
+  ano.addEventListener("change", function () {
+    dica.textContent = "";
+    const lista = versoes();
+    preencher(versao, lista.map((_, i) => String(i)), ano.value ? "Escolhe a versão" : "Escolhe o ano primeiro",
+      undefined, i => rotuloVersao(lista[i]));
+    if (lista.length === 1) {
+      versao.value = "0";
+      escolheuVersao();
+    }
+  });
+
+  // Versão escolhida → tipo de energia e consumo oficial
+  function escolheuVersao() {
+    const v = versoes()[versao.value];
+    if (!v) return;
+    const [combustivel, , , consumo, teste] = v;
+    atualizarUnidades(carro, combustivel);
+    document.getElementById("consumo-" + carro).value = consumo;
+
+    // "Mazda" + "Mazda2" → "Mazda2" (sem repetir a marca)
+    const repete = modelo.value.toLowerCase().startsWith(dados.marca.toLowerCase());
+    const nome = (repete ? "" : dados.marca + " ") + modelo.value + " " + ano.value;
+    dica.refazer = function () {
+      dica.textContent = t(teste === "NEDC"
+        ? "Consumo oficial na UE (teste NEDC, antigo, que costuma ficar abaixo do real) para {carro}. Ajusta se souberes o valor real."
+        : "Consumo oficial na UE (teste WLTP) para {carro}. Ajusta se souberes o valor real.", { carro: nome });
+    };
+    dica.refazer();
+    calcular();
+  }
   versao.addEventListener("change", escolheuVersao);
 
   // Quando a língua muda: refaz o rótulo e os nomes das versões
   document.addEventListener("mudou-lingua", function () {
     rotulo.nodeValue = t("Versão");
+    const lista = versoes();
     versao.querySelectorAll("option").forEach(function (o) {
-      if (o.value) o.text = rotuloVersao(textos[o.value]);
+      if (o.value) o.text = rotuloVersao(lista[o.value]);
     });
   });
 }
 
-export function iniciarCarrosPublico() {
-  const anos = [];
-  for (let a = new Date().getFullYear() + 1; a >= PRIMEIRO_ANO; a--) anos.push(String(a));
-  ["atual", "novo"].forEach(carro => ligar(carro, anos));
+export async function iniciarCarrosPublico() {
+  const marcas = await ler("marcas.json");
+  ["atual", "novo"].forEach(carro => ligar(carro, marcas));
 }
